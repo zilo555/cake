@@ -191,9 +191,8 @@ namespace Cake.Common.Tests.Unit.Tools.DotNet.MSBuild
             [Theory]
             [InlineData(null)]
             [InlineData(new object[] { new string[] { } })]
-            [InlineData(new object[] { new[] { "" } })]
-            [InlineData(new object[] { new[] { "          " } })]
-            public void Should_Throw_If_Property_Has_No_Value(string[] propertyValues)
+            [InlineData(new object[] { new string[] { null } })]
+            public void Should_Throw_If_Property_Has_Null_ValueOrIsEmpty(string[] propertyValues)
             {
                 // Given
                 var fixture = new DotNetMSBuildBuilderFixture();
@@ -203,7 +202,7 @@ namespace Cake.Common.Tests.Unit.Tools.DotNet.MSBuild
                 var result = Record.Exception(() => fixture.Run());
 
                 // Then
-                AssertEx.IsArgumentException(result, "Properties", "A property must have at least one non-empty value");
+                AssertEx.IsArgumentException(result, "Properties", "A property must have at least one non-null value");
             }
 
             [Fact]
