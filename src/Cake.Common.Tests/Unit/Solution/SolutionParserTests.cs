@@ -37,7 +37,8 @@ namespace Cake.Common.Tests.Unit.Solution
                 AssertEx.IsArgumentNullException(result, "environment");
             }
         }
-        public sealed class TheParseMethod
+
+        public sealed class TheParseMethodForSln
         {
             [Fact]
             public void Should_Throw_If_SolutionPath_Is_Null()
@@ -148,6 +149,146 @@ namespace Cake.Common.Tests.Unit.Solution
                 Assert.Single(result.Projects);
                 var onlyProjects = result.Projects.Where(x => !(x is SolutionFolder)).ToList();
                 Assert.Single(onlyProjects);
+            }
+        }
+
+        public sealed class TheParseMethodForSlnx
+        {
+            [Fact]
+            public void Should_Properly_Parse_Projects()
+            {
+                // Given
+                var fixture = new SolutionParserFixture();
+                var slnFilePath = fixture.WithXmlSolutionFile(Resources.SolutionXml_WithProjectsAndFolders);
+                var solutionParser = new SolutionParser(fixture.FileSystem, fixture.Environment);
+
+                // When
+                var result = solutionParser.Parse(slnFilePath);
+
+                // Then
+                Assert.NotNull(result);
+                Assert.NotNull(result.Projects);
+                Assert.Equal(5, result.Projects.Count);
+                var onlyProjects = result.Projects.Where(x => !(x is SolutionFolder)).ToList();
+                Assert.Equal(3, onlyProjects.Count);
+            }
+
+            [Fact]
+            public void Should_Properly_Parse_Folders()
+            {
+                // Given
+                var fixture = new SolutionParserFixture();
+                var slnFilePath = fixture.WithXmlSolutionFile(Resources.SolutionXml_WithProjectsAndFolders);
+                var solutionParser = new SolutionParser(fixture.FileSystem, fixture.Environment);
+
+                // When
+                var result = solutionParser.Parse(slnFilePath);
+
+                // Then
+                Assert.NotNull(result);
+                Assert.NotNull(result.Projects);
+                var folders = result.Projects.OfType<SolutionFolder>().ToList();
+                Assert.Equal(2, folders.Count);
+            }
+
+            [Fact]
+            public void Should_Properly_Parse_Relation_Between_Project_And_Folder()
+            {
+                // Given
+                var fixture = new SolutionParserFixture();
+                var slnFilePath = fixture.WithXmlSolutionFile(Resources.SolutionXml_WithProjectsAndFolders);
+                var solutionParser = new SolutionParser(fixture.FileSystem, fixture.Environment);
+
+                // When
+                var result = solutionParser.Parse(slnFilePath);
+
+                // Then
+                Assert.NotNull(result);
+                Assert.NotNull(result.Projects);
+                var folders = result.Projects.OfType<SolutionFolder>().ToList();
+                var srcFolder = folders.First(x => x.Name == "src");
+                Assert.Single(srcFolder.Items);
+                var dummyProject = result.Projects.First(x => x.Name == "dummy");
+                Assert.Contains(dummyProject, srcFolder.Items);
+                Assert.Equal(srcFolder, dummyProject.Parent);
+            }
+
+            [Fact]
+            public void Should_Properly_Parse_Projects_With_Empty_Lines()
+            {
+                // Given
+                var fixture = new SolutionParserFixture();
+                var slnFilePath = fixture.WithXmlSolutionFile(Resources.SolutionXml_WithProjectsAndFoldersAndAdditionalLines);
+                var solutionParser = new SolutionParser(fixture.FileSystem, fixture.Environment);
+
+                // When
+                var result = solutionParser.Parse(slnFilePath);
+
+                // Then
+                Assert.NotNull(result);
+                Assert.NotNull(result.Projects);
+                Assert.Equal(5, result.Projects.Count);
+                var onlyProjects = result.Projects.Where(x => !(x is SolutionFolder)).ToList();
+                Assert.Equal(3, onlyProjects.Count);
+            }
+
+            [Fact]
+            public void Should_Properly_Parse_Projects_With_Absolute_Path()
+            {
+                // Given
+                var fixture = new SolutionParserFixture();
+                var slnFilePath = fixture.WithXmlSolutionFile(Resources.SolutionXml_WithProjectUsingAbsolutePath);
+                var solutionParser = new SolutionParser(fixture.FileSystem, fixture.Environment);
+
+                // When
+                var result = solutionParser.Parse(slnFilePath);
+
+                // Then
+                Assert.NotNull(result);
+                Assert.NotNull(result.Projects);
+                Assert.Single(result.Projects);
+                var onlyProjects = result.Projects.Where(x => !(x is SolutionFolder)).ToList();
+                Assert.Single(onlyProjects);
+            }
+
+            [Fact]
+            public void Should_Properly_Parse_Projects_With_Different_Type_Id()
+            {
+                // Given
+                var fixture = new SolutionParserFixture();
+                var slnFilePath = fixture.WithXmlSolutionFile(Resources.SolutionXml_WithProjectWithDifferentTypeId);
+                var solutionParser = new SolutionParser(fixture.FileSystem, fixture.Environment);
+
+                // When
+                var result = solutionParser.Parse(slnFilePath);
+
+                // Then
+                Assert.NotNull(result);
+                Assert.NotNull(result.Projects);
+                Assert.Single(result.Projects);
+                var onlyProject = result.Projects.Single();
+
+                Assert.Equal(onlyProject.Type, "{E6FDF86B-F3D1-11D4-8576-0002A516ECE8}");
+            }
+
+            [Fact]
+            public void Should_Properly_Parse_Solution_With_Nested_Solution_Folders()
+            {
+                // Given
+                var fixture = new SolutionParserFixture();
+                var slnFilePath = fixture.WithXmlSolutionFile(Resources.SolutionXml_WithNestedSolutionFolders);
+                var solutionParser = new SolutionParser(fixture.FileSystem, fixture.Environment);
+
+                // When
+                var result = solutionParser.Parse(slnFilePath);
+
+                // Then
+                Assert.NotNull(result);
+                Assert.NotNull(result.Projects);
+                Assert.Equal(3, result.Projects.Count);
+
+                var folders = result.Projects.OfType<SolutionFolder>().ToList();
+                Assert.Equal(2, folders.Count);
             }
         }
     }
