@@ -374,13 +374,17 @@ Task("Frosting-Integration-Tests")
         DotNetRun(test.Project.FullPath,
             new ProcessArgumentBuilder()
                 .AppendSwitchQuoted("--verbosity", "=", "quiet")
-                .AppendSwitchQuoted("--name", "=", "world"),
+                .AppendSwitchQuoted("--name", "=", "nothing"),
             new DotNetRunSettings
             {
                 Configuration = parameters.Configuration,
                 Framework = test.Framework,
                 NoRestore = true,
-                NoBuild = true
+                NoBuild = true,
+                EnvironmentVariables = new Dictionary<string, string>
+                {
+                    ["CAKE_NAME"] = "world",
+                }
             });
     }
     catch(Exception ex)
