@@ -2,11 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Linq;
 using Cake.Common.Solution;
 using Cake.Common.Tests.Fixtures.Solution;
 using Cake.Common.Tests.Properties;
-using Xunit;
 
 namespace Cake.Common.Tests.Unit.Solution
 {
@@ -55,7 +53,7 @@ namespace Cake.Common.Tests.Unit.Solution
             }
 
             [Fact]
-            public void Should_Properly_Parse_Projects()
+            public async Task Should_Properly_Parse_Projects()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -66,15 +64,11 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                Assert.Equal(5, result.Projects.Count);
-                var onlyProjects = result.Projects.Where(x => !(x is SolutionFolder)).ToList();
-                Assert.Equal(3, onlyProjects.Count);
+                await Verify(result);
             }
 
             [Fact]
-            public void Should_Properly_Parse_Folders()
+            public async Task Should_Properly_Parse_Folders()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -85,14 +79,11 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                var folders = result.Projects.OfType<SolutionFolder>().ToList();
-                Assert.Equal(2, folders.Count);
+                await Verify(result);
             }
 
             [Fact]
-            public void Should_Properly_Parse_Relation_Between_Project_And_Folder()
+            public async Task Should_Properly_Parse_Relation_Between_Project_And_Folder()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -103,18 +94,11 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                var folders = result.Projects.OfType<SolutionFolder>().ToList();
-                var srcFolder = folders.First(x => x.Name == "src");
-                Assert.Single(srcFolder.Items);
-                var dummyProject = result.Projects.First(x => x.Name == "dummy");
-                Assert.Contains(dummyProject, srcFolder.Items);
-                Assert.Equal(srcFolder, dummyProject.Parent);
+                await Verify(result);
             }
 
             [Fact]
-            public void Should_Properly_Parse_Projects_With_Empty_Lines()
+            public async Task Should_Properly_Parse_Projects_With_Empty_Lines()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -125,15 +109,11 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                Assert.Equal(5, result.Projects.Count);
-                var onlyProjects = result.Projects.Where(x => !(x is SolutionFolder)).ToList();
-                Assert.Equal(3, onlyProjects.Count);
+                await Verify(result);
             }
 
             [Fact]
-            public void Should_Properly_Parse_Projects_With_Absolute_Path()
+            public async Task Should_Properly_Parse_Projects_With_Absolute_Path()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -144,18 +124,14 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                Assert.Single(result.Projects);
-                var onlyProjects = result.Projects.Where(x => !(x is SolutionFolder)).ToList();
-                Assert.Single(onlyProjects);
+                await Verify(result);
             }
         }
 
         public sealed class TheParseMethodForSlnx
         {
             [Fact]
-            public void Should_Properly_Parse_Projects()
+            public async Task Should_Properly_Parse_Projects()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -166,15 +142,11 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                Assert.Equal(5, result.Projects.Count);
-                var onlyProjects = result.Projects.Where(x => !(x is SolutionFolder)).ToList();
-                Assert.Equal(3, onlyProjects.Count);
+                await Verify(result);
             }
 
             [Fact]
-            public void Should_Properly_Parse_Folders()
+            public async Task Should_Properly_Parse_Folders()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -185,14 +157,11 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                var folders = result.Projects.OfType<SolutionFolder>().ToList();
-                Assert.Equal(2, folders.Count);
+                await Verify(result);
             }
 
             [Fact]
-            public void Should_Properly_Parse_Relation_Between_Project_And_Folder()
+            public async Task Should_Properly_Parse_Relation_Between_Project_And_Folder()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -203,18 +172,11 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                var folders = result.Projects.OfType<SolutionFolder>().ToList();
-                var srcFolder = folders.First(x => x.Name == "src");
-                Assert.Single(srcFolder.Items);
-                var dummyProject = result.Projects.First(x => x.Name == "dummy");
-                Assert.Contains(dummyProject, srcFolder.Items);
-                Assert.Equal(srcFolder, dummyProject.Parent);
+                await Verify(result);
             }
 
             [Fact]
-            public void Should_Properly_Parse_Projects_With_Empty_Lines()
+            public async Task Should_Properly_Parse_Projects_With_Empty_Lines()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -225,15 +187,11 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                Assert.Equal(5, result.Projects.Count);
-                var onlyProjects = result.Projects.Where(x => !(x is SolutionFolder)).ToList();
-                Assert.Equal(3, onlyProjects.Count);
+                await Verify(result);
             }
 
             [Fact]
-            public void Should_Properly_Parse_Projects_With_Absolute_Path()
+            public async Task Should_Properly_Parse_Projects_With_Absolute_Path()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -244,15 +202,11 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                Assert.Single(result.Projects);
-                var onlyProjects = result.Projects.Where(x => !(x is SolutionFolder)).ToList();
-                Assert.Single(onlyProjects);
+                await Verify(result);
             }
 
             [Fact]
-            public void Should_Properly_Parse_Projects_With_Different_Type_Id()
+            public async Task Should_Properly_Parse_Projects_With_Different_Type_Id()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -263,16 +217,11 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                Assert.Single(result.Projects);
-                var onlyProject = result.Projects.Single();
-
-                Assert.Equal(onlyProject.Type, "{E6FDF86B-F3D1-11D4-8576-0002A516ECE8}");
+                await Verify(result);
             }
 
             [Fact]
-            public void Should_Properly_Parse_Solution_With_Nested_Solution_Folders()
+            public async Task Should_Properly_Parse_Solution_With_Nested_Solution_Folders()
             {
                 // Given
                 var fixture = new SolutionParserFixture();
@@ -283,12 +232,7 @@ namespace Cake.Common.Tests.Unit.Solution
                 var result = solutionParser.Parse(slnFilePath);
 
                 // Then
-                Assert.NotNull(result);
-                Assert.NotNull(result.Projects);
-                Assert.Equal(3, result.Projects.Count);
-
-                var folders = result.Projects.OfType<SolutionFolder>().ToList();
-                Assert.Equal(2, folders.Count);
+                await Verify(result);
             }
         }
     }
