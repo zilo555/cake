@@ -1501,4 +1501,62 @@ EndGlobal</value>
 &lt;/xsl:template&gt;
 &lt;/xsl:stylesheet&gt;</value>
   </data>
+  <data name="SolutionXml_WithProjectsAndFolders" xml:space="preserve">
+    <value>&lt;Solution&gt;
+  &lt;Folder Name="/src/"&gt;
+    &lt;Project Path="src/dummy/dummy.csproj" /&gt;
+  &lt;/Folder&gt;
+  &lt;Folder Name="/test/"&gt;
+    &lt;Project Path="test/dummy.Tests/dummy.Tests.csproj" /&gt;
+  &lt;/Folder&gt;
+  &lt;Project Path="executable/executable.csproj" /&gt;
+&lt;/Solution&gt;
+</value>
+  </data>
+  <data name="SolutionXml_WithProjectsAndFoldersAndAdditionalLines" xml:space="preserve">
+    <value>&lt;Solution&gt;
+  &lt;Folder Name="/src/"&gt;
+    &lt;Project Path="src/dummy/dummy.csproj" /&gt;
+  &lt;/Folder&gt;
+
+
+
+  &lt;Folder Name="/test/"&gt;
+    &lt;Project Path="test/dummy.Tests/dummy.Tests.csproj" /&gt;
+  &lt;/Folder&gt;
+
+
+
+  &lt;Project Path="executable/executable.csproj" /&gt;
+
+
+
+  
+&lt;/Solution&gt;
+</value>
+  </data>
+  <data name="SolutionXml_WithProjectUsingAbsolutePath" xml:space="preserve">
+    <value>&lt;Solution&gt;
+  &lt;Project Path="C:/project/dummy/src/dummy/dummy.csproj" /&gt;
+&lt;/Solution&gt;
+</value>
+  </data>
+  <data name="SolutionXml_WithProjectWithDifferentTypeId" xml:space="preserve">
+    <value>&lt;Solution&gt;
+  &lt;Project Path="WebApplication/WebApplication.csproj" Type="e6fdf86b-f3d1-11d4-8576-0002a516ece8"&gt;
+    &lt;Platform Project="AnyCPU" /&gt;
+  &lt;/Project&gt;
+&lt;/Solution&gt;
+</value>
+  </data>
+  <data name="SolutionXml_WithNestedSolutionFolders" xml:space="preserve">
+    <value>&lt;Solution&gt;
+  &lt;Folder Name="/SolutionFolder1/"&gt;
+  &lt;/Folder&gt;
+  &lt;Folder Name="/SolutionFolder1/NestedSolutionFolder/"&gt;
+    &lt;Project Path="ClassLibraryNestedSolutionFolder/ClassLibraryNestedSolutionFolder.csproj" /&gt;
+  &lt;/Folder&gt;
+&lt;/Solution&gt;
+</value>
+  </data>
 </root>
