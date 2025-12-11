@@ -373,8 +373,9 @@ Task("Frosting-Integration-Tests")
 
         DotNetRun(test.Project.FullPath,
             new ProcessArgumentBuilder()
-                .AppendSwitchQuoted("--verbosity", "=", "quiet")
-                .AppendSwitchQuoted("--name", "=", "nothing"),
+                .AppendSwitchQuoted("--verbosity", "=", Argument("integration-tests-verbosity", "quiet"))
+                .AppendSwitchQuoted("--name", "=", "World")
+                .AppendSwitchQuoted("--IntegrationTest_Argument", "=", bool.TrueString),
             new DotNetRunSettings
             {
                 Configuration = parameters.Configuration,
@@ -383,7 +384,7 @@ Task("Frosting-Integration-Tests")
                 NoBuild = true,
                 EnvironmentVariables = new Dictionary<string, string>
                 {
-                    ["CAKE_NAME"] = "world",
+                    ["CAKE_INTEGRATIONTEST_ENVIRONMENT"] = bool.TrueString,
                 }
             });
     }
