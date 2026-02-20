@@ -55,7 +55,7 @@ namespace Cake.Common.Tools.NuGet.Pack
                 { "language", x => ToString(settings.Language) },
                 { "tags", x => ToSpaceSeparatedString(settings.Tags) },
                 { "serviceable", x => ToString(settings.Serviceable) },
-                { "readme", x => ToString(settings.ReadMe.FullPath) }
+                { "readme", x => ToString(settings.ReadMe?.FullPath) }
             };
         }
 
