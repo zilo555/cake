@@ -280,6 +280,6 @@ namespace Cake.Common.Tools.NuGet.Pack
         /// <value>
         /// The path to a file included in the package, relative to the root of the package.
         /// </value>
-        public string ReadMe { get; set; }
+        public FilePath ReadMe { get; set; }
     }
 }
