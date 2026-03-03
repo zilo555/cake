@@ -81,7 +81,7 @@ namespace Cake.Frosting.Internal
 
         private static CakeArguments CreateCakeArguments(IRemainingArguments remainingArguments, DefaultCommandSettings settings)
         {
-            return remainingArguments.ToCakeArguments(settings.Targets);
+            return remainingArguments.ToCakeArguments(settings.NoReport, settings.Targets);
         }
 
         private void InstallTools(ServiceProvider provider)
