@@ -65,19 +65,14 @@ namespace Cake.Common.IO.Paths
         /// <param name="dir">DirectoryPath.</param>
         /// <param name="file">ConvertableFilePath.</param>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="ConvertableFilePath" /> that represents this instance.
         /// </returns>
-        public static string operator +(DirectoryPath dir, ConvertableFilePath file)
+        public static ConvertableFilePath operator +(DirectoryPath dir, ConvertableFilePath file)
         {
-            if (dir == null)
-            {
-                throw new ArgumentNullException(nameof(dir));
-            }
-            if (file == null)
-            {
-                throw new ArgumentNullException(nameof(file));
-            }
-            return string.Concat(dir.FullPath, dir.Separator.ToString(), file);
+            ArgumentNullException.ThrowIfNull(dir);
+            ArgumentNullException.ThrowIfNull(file);
+
+            return new ConvertableFilePath(dir.CombineWithFilePath(file));
         }
     }
 }

@@ -2,14 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using Cake.Common.IO.Paths;
 using Cake.Core.IO;
 using NSubstitute;
-using Xunit;
-using Xunit.v3;
 
 namespace Cake.Common.Tests.Unit.IO.Paths
 {
@@ -110,7 +106,7 @@ namespace Cake.Common.Tests.Unit.IO.Paths
                     var filePath = new ConvertableFilePath("file.txt");
 
                     // When
-                    var result = (dirPath + filePath).ToString();
+                    string result = dirPath + filePath;
 
                     // Then
                     Assert.Equal("X/file.txt", result);
