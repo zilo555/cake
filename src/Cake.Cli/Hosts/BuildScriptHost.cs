@@ -1,10 +1,11 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cake.Cli.Infrastructure;
 using Cake.Core;
 using Cake.Core.Configuration;
 using Cake.Core.Diagnostics;
@@ -96,7 +97,7 @@ namespace Cake.Cli
             {
                 var report = await Engine.RunTargetAsync(_context, _executionStrategy, Settings).ConfigureAwait(false);
 
-                var noReportEnabled = _configuration.GetValue("Settings_NoReport") ?? bool.FalseString;
+                var noReportEnabled = _configuration.GetValue(Constants.Settings.NoReport) ?? bool.FalseString;
                 if (report != null && !report.IsEmpty && !noReportEnabled.Equals(bool.TrueString, StringComparison.OrdinalIgnoreCase))
                 {
                     _reportPrinter.Write(report);
