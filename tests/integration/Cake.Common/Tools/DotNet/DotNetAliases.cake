@@ -216,8 +216,8 @@ Task("Cake.Common.Tools.DotNet.DotNetAliases.DotNetMSBuild")
     var project = path.CombineWithFilePath("hwapp/hwapp.csproj");
     var assembly = path.CombineWithFilePath("hwapp/bin/Debug/net10.0/hwapp.dll");
 
-    // When
-    DotNetMSBuild(project.FullPath);
+    // When (Verbosity.Quiet exercises MSBuild /verbosity, not dotnet --verbosity; see https://github.com/cake-build/cake/issues/4456)
+    DotNetMSBuild(project.FullPath, new DotNetMSBuildSettings { Verbosity = DotNetVerbosity.Quiet });
 
     // Then
     Assert.True(System.IO.File.Exists(assembly.FullPath));
