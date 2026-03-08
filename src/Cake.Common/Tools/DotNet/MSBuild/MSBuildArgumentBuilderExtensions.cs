@@ -61,9 +61,9 @@ namespace Cake.Common.Tools.DotNet.MSBuild
             // Got any properties?
             foreach (var property in settings.Properties)
             {
-                if (property.Value == null || property.Value.All(string.IsNullOrWhiteSpace))
+                if (property.Value == null || property.Value.All(value => value == null))
                 {
-                    throw new ArgumentException("A property must have at least one non-empty value", nameof(settings.Properties));
+                    throw new ArgumentException("A property must have at least one non-null value", nameof(settings.Properties));
                 }
 
                 msBuilder.AppendMSBuildSwitch("property", $"{property.Key}={property.BuildMSBuildPropertyParameterString()}");
