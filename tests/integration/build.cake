@@ -42,6 +42,7 @@
 #load "./Cake.Core/Scripting/SpectreConsole.cake"
 #load "./Cake.Core/Tooling/ToolLocator.cake"
 #load "./Cake.Core/CakeAliases.cake"
+#load "./Cake.Core/CakeEnvironment.cake"
 #load "./Cake.DotNetTool.Module/Cake.DotNetTool.Module.cake"
 #load "./Cake.NuGet/InProcessInstaller.cake"
 
@@ -59,6 +60,7 @@ Task("Cake")
     .IsDependentOn("Cake.ScriptCache");
 
 Task("Cake.Core")
+    .IsDependentOn("Cake.Core.CakeEnvironment")
     .IsDependentOn("Cake.Core.Diagnostics")
     .IsDependentOn("Cake.Core.IO.Path")
     .IsDependentOn("Cake.Core.Scripting.AddinDirective")
