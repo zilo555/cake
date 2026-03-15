@@ -40,13 +40,13 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
     <!-- Pin nuget transitive packages vulnerability issues NuGet.Packaging -->
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.3" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.13" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.14" />
     <!-- Pin nuget transitive packages vulnerability issues NuGet.Packaging -->
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="9.0.13" />
   </ItemGroup>
