@@ -376,7 +376,7 @@ Task("Cake.Common.Tools.DotNet.DotNetAliases.DotNetAddPackage")
 });
 
 Task("Cake.Common.Tools.DotNet.DotNetAliases.DotNetRemovePackage")
-    .IsDependentOn("Cake.Common.Tools.DotNet.DotNetAliases.Setup")
+    .IsDependentOn("Cake.Common.Tools.DotNet.DotNetAliases.DotNetAddPackage")
     .Does(() =>
 {
     // Given
@@ -390,7 +390,13 @@ Task("Cake.Common.Tools.DotNet.DotNetAliases.DotNetRemovePackage")
     Assert.Equal(package, value);
 
     // When
-    DotNetRemovePackage(package, project.FullPath);
+
+    DotNetRemovePackage(
+        package, project.GetFilename().FullPath,
+        // Workaround for SDK regression https://github.com/NuGet/Home/issues/14801
+        new DotNetPackageRemoveSettings { 
+            WorkingDirectory = project.GetDirectory().FullPath
+         });
 
     value = XmlPeek(
         project.FullPath,
