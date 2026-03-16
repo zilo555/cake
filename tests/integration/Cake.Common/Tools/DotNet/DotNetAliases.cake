@@ -473,6 +473,27 @@ Task("Cake.Common.Tools.DotNet.DotNetAliases.DotNetSearchPackage")
     Assert.Contains(package, result.Select(x => x.Name));
 });
 
+Task("Cake.Common.Tools.DotNet.DotNetAliases.DotNetSearchPackage.ExactMatch")
+    .Does(() =>
+{
+    // Given: exact-match returns "version" in JSON (not "latestVersion"); see issue #4454
+    var package = "Refit.Newtonsoft.Json";
+
+    // When
+    var result = DotNetSearchPackage(package, new DotNetPackageSearchSettings { ExactMatch = true });
+
+    // Then: every item must have non-null Version (fix for dotnet package search --exact-match --format json)
+    Assert.NotNull(result);
+    var list = result.ToList();
+    Assert.NotEmpty(list);
+    foreach (var item in list)
+    {
+        Assert.NotNull(item.Name);
+        Assert.NotNull(item.Version);
+        Assert.Equal(package, item.Name);
+    }
+});
+
 Task("Cake.Common.Tools.DotNet.DotNetAliases.DotNetListPackage")
     .IsDependentOn("Cake.Common.Tools.DotNet.DotNetAliases.DotNetRestore")
     .Does(() =>
@@ -551,6 +572,7 @@ Task("Cake.Common.Tools.DotNet.DotNetAliases.DotNetBuildServerShutdown")
     .IsDependentOn("Cake.Common.Tools.DotNet.DotNetAliases.DotNetAddPackage")
     .IsDependentOn("Cake.Common.Tools.DotNet.DotNetAliases.DotNetRemovePackage")
     .IsDependentOn("Cake.Common.Tools.DotNet.DotNetAliases.DotNetSearchPackage")
+    .IsDependentOn("Cake.Common.Tools.DotNet.DotNetAliases.DotNetSearchPackage.ExactMatch")
     .IsDependentOn("Cake.Common.Tools.DotNet.DotNetAliases.DotNetListPackage")
     .IsDependentOn("Cake.Common.Tools.DotNet.DotNetAliases.DotNetAddReference")
     .IsDependentOn("Cake.Common.Tools.DotNet.DotNetAliases.DotNetRemoveReference")
