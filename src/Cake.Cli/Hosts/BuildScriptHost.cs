@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cake.Cli.Infrastructure;
@@ -95,10 +94,14 @@ namespace Cake.Cli
         {
             try
             {
+                if (_configuration.GetBoolValue(Constants.Settings.UnifiedDependencyGraphForMultipleTargets))
+                {
+                    Settings.UseUnifiedDependencyGraphForMultipleTargets(true);
+                }
+
                 var report = await Engine.RunTargetAsync(_context, _executionStrategy, Settings).ConfigureAwait(false);
 
-                var noReportEnabled = _configuration.GetValue(Constants.Settings.NoReport) ?? bool.FalseString;
-                if (report != null && !report.IsEmpty && !noReportEnabled.Equals(bool.TrueString, StringComparison.OrdinalIgnoreCase))
+                if (report != null && !report.IsEmpty && !_configuration.GetBoolValue(Constants.Settings.NoReport))
                 {
                     _reportPrinter.Write(report);
                 }

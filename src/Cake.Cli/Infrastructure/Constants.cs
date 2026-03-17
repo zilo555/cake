@@ -18,6 +18,11 @@ namespace Cake.Cli.Infrastructure
             /// Configuration key for disabling the build report.
             /// </summary>
             public const string NoReport = "Settings_NoReport";
+
+            /// <summary>
+            /// Configuration key for using a unified dependency graph when running multiple targets.
+            /// </summary>
+            public const string UnifiedDependencyGraphForMultipleTargets = "Settings_UnifiedDependencyGraphForMultipleTargets";
         }
     }
 }
