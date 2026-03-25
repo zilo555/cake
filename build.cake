@@ -131,16 +131,20 @@ Task("Run-Unit-Tests")
 {
     foreach (var framework in new[] { "net8.0", "net9.0", "net10.0" })
     {
-        FilePath testResultsPath = MakeAbsolute(parameters.Paths.Directories.TestResults
-            .CombineWithFilePath($"{project.GetFilenameWithoutExtension()}_{framework}_TestResults.xml"));
+        var trxFileName = $"{project.GetFilenameWithoutExtension()}_{framework}_TestResults.trx";
 
         DotNetTest(project.FullPath, new DotNetTestSettings
         {
             Framework = framework,
+            PathType = DotNetTestPathType.Project,
             NoBuild = true,
             NoRestore = true,
             Configuration = parameters.Configuration,
-            ArgumentCustomization = args=>args.Append($"--logger trx;LogFileName=\"{testResultsPath}\"")
+            ResultsDirectory = parameters.Paths.Directories.TestResults,
+            ArgumentCustomization = args => args
+                .Append("--report-trx")
+                .Append("--report-trx-filename")
+                .AppendQuoted(trxFileName)
         });
     }
 });
