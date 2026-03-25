@@ -52,7 +52,7 @@ Task("Cake.Common.Tools.DotNet.DotNetAliases.DotNetTest")
     var project = path.CombineWithFilePath("hwapp.tests/hwapp.tests.csproj");
 
     // When
-    DotNetTest(project.FullPath);
+    DotNetTest(project.FullPath, new DotNetTestSettings { PathType = DotNetTestPathType.Project });
 });
 
 Task("Cake.Common.Tools.DotNet.DotNetAliases.DotNetVSTest")
