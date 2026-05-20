@@ -492,6 +492,9 @@ Task("GitHubActions-Release")
 Task("Travis")
   .IsDependentOn("Run-Unit-Tests");
 
+Task("Rwx")
+  .IsDependentOn("Run-Integration-Tests");
+
 Task("ReleaseNotes")
   .IsDependentOn("Create-Release-Notes");
 
