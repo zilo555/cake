@@ -24,20 +24,25 @@ tasks:
       fetch-full-depth: true
       preserve-git-dir: true
 
-  - key: libicu-dev
-    run: |
-      sudo apt-get update
-      sudo apt-get install -y --no-install-recommends libicu-dev
+  - key: install-dotnet
+    use: code
+    call: dotnet/install 1.0.0
+    with:
+      dotnet-channels: '["8.0", "9.0"]'
+      global-json-file: global.json
+    filter:
+      - global.json
 
   - key: build
-    use: [code, libicu-dev]
+    use: [code, install-dotnet]
     run: |
       # We clone at a commit SHA, so HEAD is detached; GitVersion needs a named branch ref.
       # Use plumbing commands so the working tree (including any patched files) is untouched.
       git branch -f develop HEAD
       git symbolic-ref HEAD refs/heads/develop
 
-      ./build.sh --target=Rwx --integration-tests-target=Cake.Common.Build.RwxProvider
+      dotnet tool restore
+      dotnet cake --target=Rwx --integration-tests-target=Cake.Common.Build.RwxProvider
     env:
       CAKE_INSTALL_SUPPORTED_SDKS: "true"
       NuGetAudit: "false"
