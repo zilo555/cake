@@ -27,9 +27,9 @@
     <PackageVersion Include="NuGet.Resolver" Version="7.6.0" />
     <PackageVersion Include="NuGet.Versioning" Version="7.6.0" />
     <PackageVersion Include="NuGet.Credentials" Version="7.6.0" />
-    <PackageVersion Include="Spectre.Console" Version="0.55.2" />
+    <PackageVersion Include="Spectre.Console" Version="0.56.0" />
     <PackageVersion Include="Spectre.Console.Cli" Version="0.55.0" />
-    <PackageVersion Include="Spectre.Console.Testing" Version="0.55.2" />
+    <PackageVersion Include="Spectre.Console.Testing" Version="0.56.0" />
     <PackageVersion Include="Spectre.Verify.Extensions" Version="28.16.0" />
     <PackageVersion Include="Verify.DiffPlex" Version="3.2.0" />
     <PackageVersion Include="Verify.XunitV3" Version="31.19.0" />
@@ -41,23 +41,19 @@
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.7.0" />
     <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.2.3" />
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.8" />
     <!-- Pin nuget transitive packages vulnerability issues NuGet.Packaging -->
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.8" />
   </ItemGroup>
-  
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.16" />
     <!-- Pin nuget transitive packages vulnerability issues NuGet.Packaging -->
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="9.0.16" />
   </ItemGroup>
-  
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <!-- Pin nuget transitive packages vulnerability issues NuGet.Packaging -->
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="8.0.1" />
   </ItemGroup>
-
 </Project>
